@@ -89,8 +89,13 @@ def startMonitoring(productIDList, toEmail, fromEmail, fromPassword, monitorFreq
           if logging:
             print(f"Stock {itemName} is currently not available.")
       except Exception as e:
-        print(f"An error occurred when checking productID {productID}: {e}\n")
-        errorSent = send_email_error(fromEmail, fromPassword, toEmail, productID, itemName, e, logging=logging)
+        try:
+          productID, itemName, isAvailable = getAvailability(productID, logging=logging)
+          if isAvailable:
+            availabilityList.append((productID, itemName))
+        except Exception as e:
+          print(f"An error occurred when checking productID {productID}: {e}\n")
+          errorSent = send_email_error(fromEmail, fromPassword, toEmail, productID, itemName, e, logging=logging)
     #Send email for containing all the available products
     for productID, itemName in availabilityList:
       try:
@@ -107,7 +112,7 @@ def startMonitoring(productIDList, toEmail, fromEmail, fromPassword, monitorFreq
     
 def main():
     #18931348 - 5090 FE
-    startMonitoring([18931348], "test@gmail.com", "test@gmail.com", "your app password", monitorFrequencyInSec=15, logging=False)
+    startMonitoring([18931348], "test@gmail.com", "test@gmail.com", "your app password", monitorFrequencyInSec=30, logging=False)
     
 if __name__ == "__main__":
     main()
