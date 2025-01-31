@@ -3,11 +3,12 @@ import os.path
 import base64
 from email.message import EmailMessage
 import datetime
+import numpy as np
 
 #Takes a product ID and get's the current product availiability information from the BB Product API for that product
 #Where the product id is the final after the final slash of the bestbuy url
 #header are used to fool the url to think that it's a human. Without headers, it will take forever for the server to respond
-def getAvailability(product_id, url="https://www.bestbuy.ca/api/v2/json/product/", header={"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}, logging=True):
+def getAvailability(product_id, url="https://www.bestbuy.ca/api/v2/json/product/", header={"User-Agent": f"Mozilla/5.0 (X11; CrOS x86_64 12871.102.{np.random.randint(0, 145)}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.{np.random.randint(0, 145)} Safari/537.36"}, logging=True):
   #Concat string
   url = url + (str(product_id))
   json = requests.get(url, headers=header).json()
@@ -106,13 +107,13 @@ def startMonitoring(productIDList, toEmail, fromEmail, fromPassword, monitorFreq
         print(f"An error occurred when sending email for productID {productID}: {e}\n")
         return
 
-    #Sleep for 30 seconds
-    time.sleep(monitorFrequencyInSec)
+    #Sleep for monitorFrequencyInSec +- floor(monitorFrequencyInSec/2) seconds
+    time.sleep(np.random.randint(monitorFrequencyInSec - (np.floor(monitorFrequencyInSec / 2)), monitorFrequencyInSec + (np.floor(monitorFrequencyInSec / 2))))
     
     
 def main():
     #18931348 - 5090 FE
-    startMonitoring([18931348], "test@gmail.com", "test@gmail.com", "your app password", monitorFrequencyInSec=30, logging=False)
+    startMonitoring([18931348], "test@gmail.com", "test@gmail.com", "your app password", monitorFrequencyInSec=30, logging=True)
     
 if __name__ == "__main__":
     main()
