@@ -20,7 +20,7 @@ def getAvailability(product_id, url="https://www.bestbuy.ca/api/v2/json/product/
   isAvailableForPickup = json["isAvailableForPickup"] #Not "SoldOut"
   isBackorderable = json["isBackorderable"] #Not False
   itemName = json["name"]
-  print(isAvailableOnline, onlineAvailability, onlineAvailabilityCount, buttonState, isAvailableForOrder, isAvailableForPickup, isBackorderable)
+  #print(isAvailableOnline, onlineAvailability, onlineAvailabilityCount, buttonState, isAvailableForOrder, isAvailableForPickup, isBackorderable)
   #If any of these is true, then notify
   if (isAvailableOnline != False and (onlineAvailability not in ["SoldOut", "OutOfStockOnBackorder", "NotYetAvailable"])) or buttonState not in ["SoldOut", "ComingSoon"] or isAvailableForOrder != False or isAvailableForPickup != False or isBackorderable != False:
     return product_id, itemName, True
