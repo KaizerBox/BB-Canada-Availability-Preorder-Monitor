@@ -21,7 +21,7 @@ def getAvailability(product_id, url="https://www.bestbuy.ca/api/v2/json/product/
   itemName = json["name"]
   #print(isAvailableOnline, onlineAvailability, onlineAvailabilityCount, buttonState, isAvailableForOrder, isAvailableForPickup, isBackorderable)
   #If any of these is true, then notify
-  if (isAvailableOnline != False and (onlineAvailability not in ["SoldOut", "OutOfStockOnBackorder"]) and onlineAvailabilityCount > 0) or buttonState != "SoldOut" or isAvailableForOrder != False or isAvailableForPickup != False or isBackorderable != False:
+  if (isAvailableOnline != False and (onlineAvailability not in ["SoldOut", "OutOfStockOnBackorder"])) or buttonState != "SoldOut" or isAvailableForOrder != False or isAvailableForPickup != False or isBackorderable != False:
     return product_id, itemName, True
   else:
     return product_id, itemName, False
@@ -107,7 +107,7 @@ def startMonitoring(productIDList, toEmail, fromEmail, fromPassword, monitorFreq
     
 def main():
     #18931348 - 5090 FE
-    startMonitoring([18931348], "test@gmail.com", "test@gmail.com", "your app password", monitorFrequencyInSec=30, logging=False)
+    startMonitoring([18931348], "test@gmail.com", "test@gmail.com", "your app password", monitorFrequencyInSec=15, logging=False)
     
 if __name__ == "__main__":
     main()
